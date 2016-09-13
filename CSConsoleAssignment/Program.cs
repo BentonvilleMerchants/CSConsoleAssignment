@@ -5,6 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+// Header ***********************************************************************
+// Author: Joseph Isabell
+// Create Date: 9/12/2016
+// Description: Console program written for an assignment in IS 403 at BYU. 
+// The program takes input from users to simulate a very basic soccer
+// tournament. 
+// 
+// ******************************************************************************
 
 
 namespace CSConsoleAssignment
@@ -13,37 +21,30 @@ namespace CSConsoleAssignment
     {
         static void Main(string[] args)
         {
-            //Declare Variables
+            // Declare Variables
             int iNumTeams;
             int iCount = 0;
-            string sTeamName;
             int iTeamPoints;
+            string sTeamName;
 
+            // Create a new list of SoccerTeam objects to be used 
             List<SoccerTeam> stTeams = new List<SoccerTeam>();
 
-            Console.Write("How many teams are in the tournament? ");
-            iNumTeams = Convert.ToInt32(Console.ReadLine());
+            // Prompt the user to enter the number of teams to be included in the
+            // tournament simulation.
+            iNumTeams = RequestIntFromUser("How many teams are in the tournament?");
 
 
             while (iCount < iNumTeams)
                 {
-                    try
-                    {
-                        Console.Write("\nEnter Team " + (iCount + 1) + "'s Name: ");
-                        sTeamName = UppercaseFirst(Console.ReadLine());
+                    Console.Write("\nEnter Team " + (iCount + 1) + "'s Name: ");
+                    sTeamName = UppercaseFirst(Console.ReadLine());
 
-                        Console.Write("Enter " + sTeamName + "'s points: ");
-                        iTeamPoints = Convert.ToInt32(Console.ReadLine());
+                    iTeamPoints = RequestIntFromUser("Enter " + sTeamName + "'s points: ");
 
-                        SoccerTeam stNewTeam = new SoccerTeam(sTeamName, iTeamPoints);
-                        stTeams.Add(stNewTeam);
-                        iCount++;
-                    }
-
-                    catch(Exception e)
-                    {
-                        Console.WriteLine("\nPlease enter a number.");
-                    }
+                    SoccerTeam stNewTeam = new SoccerTeam(sTeamName, iTeamPoints);
+                    stTeams.Add(stNewTeam);
+                    iCount++;
 
                 }
 
@@ -51,7 +52,6 @@ namespace CSConsoleAssignment
             List<SoccerTeam> sortedTeams = stTeams.OrderByDescending(SoccerTeam => SoccerTeam.points).ToList();
 
             Console.WriteLine("\n\nHere is the sorted list:");
-
             Console.WriteLine("\nPosition           Name                       Points");
             Console.Write("--------           ----                       ------");
 
@@ -81,11 +81,30 @@ namespace CSConsoleAssignment
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
-        static int CheckInt(string sUserInput)
+
+        static int RequestIntFromUser(string sQuestion)
         {
+            bool bCheck = true;
+            int iNum;
+            string sUserInput;
 
+            Console.Write(sQuestion + " ");
+            sUserInput = Console.ReadLine();
 
-            return;
+            while (bCheck)
+            {
+                if (int.TryParse(sUserInput, out iNum))
+                {
+                    bCheck = false;
+                }
+                else
+                {
+                    Console.Write("Please enter a valid number: ");
+                    sUserInput = Console.ReadLine();
+                }
+            }
+
+            return iNum = Convert.ToInt32(sUserInput);
         }
     }
 

@@ -26,5 +26,7 @@ namespace CSConsoleAssignment
             this.name = sTeamName;
             this.points = iPoints;
         }
+
+
     }
 }
